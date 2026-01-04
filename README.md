@@ -1,6 +1,15 @@
 # ACP - Base Comparateur de Territoires INSEE
 ## Analyse en Composantes Principales des communes françaises
 ### Master 1 Statistique - Cours E. Périnel (2024-2025)
+**CHERIET Abdelmalek** - Étudiant en M1 Statistique - Université de Strasbourg
+
+---
+
+## 📄 RAPPORT COMPLET (Cliquez pour ouvrir)
+
+### 👉 [**OUVRIR LE RAPPORT ACP AVEC TOUS LES GRAPHIQUES**](https://abdel67unistra.github.io/ACP-INSPEE-ADD-PROJET/Rapport_ACP_Resultats.html) 👈
+
+> Ce rapport contient toutes les images de l'analyse avec leurs interprétations détaillées.
 
 ---
 
