@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Rapport ACP - Résultats Détaillés</title>
+    <style>
+        body { font-family: Calibri, Arial, sans-serif; margin: 40px; line-height: 1.8; font-size: 12pt; }
+        h1 { color: #1a3c5e; text-align: center; border-bottom: 4px solid #1a3c5e; padding-bottom: 15px; font-size: 24pt; }
+        h2 { color: #2d5a87; border-left: 6px solid #2d5a87; padding-left: 15px; margin-top: 50px; font-size: 16pt; background-color: #f0f5fa; padding: 10px; }
+        h3 { color: #3d7ab5; font-size: 14pt; margin-top: 20px; }
+        .image-container { text-align: center; margin: 25px 0; }
+        img { max-width: 600px; border: 2px solid #ddd; box-shadow: 3px 3px 8px rgba(0,0,0,0.15); }
+        .resultat { background-color: #e8f5e9; padding: 20px; border-left: 5px solid #4caf50; margin: 15px 0; border-radius: 5px; }
+        .interpretation { background-color: #fff3e0; padding: 20px; border-left: 5px solid #ff9800; margin: 15px 0; border-radius: 5px; }
+        .conclusion { background-color: #e3f2fd; padding: 20px; border-left: 5px solid #1976d2; margin: 15px 0; border-radius: 5px; }
+        table { border-collapse: collapse; width: 100%; margin: 15px 0; }
+        th, td { border: 1px solid #bbb; padding: 10px; text-align: left; }
+        th { background-color: #2d5a87; color: white; }
+        tr:nth-child(even) { background-color: #f5f5f5; }
+        .page-break { page-break-before: always; }
+        code { background-color: #f0f0f0; padding: 2px 6px; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+<h1>📊 ANALYSE EN COMPOSANTES PRINCIPALES</h1>
+<h2 style="text-align: center; border: none; background: none;">Base Comparateur de Territoires INSEE - Résultats Détaillés</h2>
+<p style="text-align: center; font-size: 14pt;"><strong>Master 1 Statistique - Cours E. Périnel (2024-2025)</strong></p>
+<p style="text-align: center; font-size: 13pt;"><strong>CHERIET Abdelmalek</strong><br>Étudiant en M1 Statistique - Université de Strasbourg</p>
+
+<hr>
+
+<h2>📊 GRAPHIQUE 1 : Matrice de Corrélation</h2>
+
+<div class="image-container">
+    <img src="images/01_matrice_correlation.png" alt="Matrice de corrélation">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li><strong>Cercle bleu foncé (-0.72)</strong> entre <code>pct_services</code> et <code>pct_agriculture</code> : c'est la corrélation négative la plus forte. Quand une commune a beaucoup de services, elle a peu d'agriculture et inversement.</li>
+        <li><strong>Cercle bleu (-0.56)</strong> entre <code>taux_proprietaires</code> et <code>taux_chomage</code> : les communes avec beaucoup de propriétaires ont peu de chômage.</li>
+        <li><strong>Cercle bleu (-0.45)</strong> entre <code>MED21</code> (revenu médian) et <code>taux_chomage</code> : logiquement, les communes riches ont moins de chômage.</li>
+        <li><strong>Cercle rouge (+0.38)</strong> entre <code>pct_agriculture</code> et <code>taux_logements_vacants</code> : les zones agricoles ont plus de logements vides (exode rural).</li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <p>Cette matrice révèle <strong>deux grandes oppositions</strong> dans les communes françaises :</p>
+    <ol>
+        <li><strong>Services vs Agriculture</strong> : opposition ville/campagne. Les communes sont soit tertiaires, soit agricoles, rarement les deux.</li>
+        <li><strong>Propriétaires vs Chômage</strong> : opposition stabilité/précarité. Être propriétaire est un marqueur de stabilité sociale.</li>
+    </ol>
+    <p>Ces corrélations justifient l'ACP : les variables ne sont pas indépendantes, on peut les synthétiser.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 2 : Éboulis des Valeurs Propres</h2>
+
+<div class="image-container">
+    <img src="images/02_eboulis_valeurs_propres.png" alt="Éboulis des valeurs propres">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <table>
+        <tr><th>Axe</th><th>Valeur propre</th><th>% Variance</th><th>% Cumulé</th></tr>
+        <tr><td><strong>Dim 1</strong></td><td>2.29</td><td>20.82%</td><td>20.82%</td></tr>
+        <tr><td><strong>Dim 2</strong></td><td>2.20</td><td>19.98%</td><td>40.80%</td></tr>
+        <tr><td><strong>Dim 3</strong></td><td>1.36</td><td>12.34%</td><td>53.14%</td></tr>
+        <tr><td><strong>Dim 4</strong></td><td>1.12</td><td>10.16%</td><td>63.30%</td></tr>
+        <tr><td>Dim 5</td><td>0.94</td><td>8.55%</td><td>71.85%</td></tr>
+    </table>
+    <p>La <strong>ligne rouge</strong> montre le seuil de Kaiser (λ = 1). Les 4 premiers axes dépassent ce seuil.</p>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <ul>
+        <li><strong>4 axes retenus</strong> selon le critère de Kaiser (valeur propre > 1)</li>
+        <li><strong>63.30% de variance expliquée</strong> avec 4 axes : on résume 11 variables en 4 dimensions en perdant seulement 37% d'information</li>
+        <li>Le <strong>plan 1-2 explique 40.80%</strong> : c'est correct mais pas excellent. Certaines variables seront mal représentées sur ce plan principal.</li>
+        <li>Pas de "coude" très net : la structure des communes est <strong>complexe et multidimensionnelle</strong>, ce qui est normal pour 31 249 communes très diverses.</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 3 : Critère du Bâton Brisé</h2>
+
+<div class="image-container">
+    <img src="images/03_baton_brise.png" alt="Bâton brisé">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li>Les barres <strong>rouges</strong> = nos valeurs propres observées</li>
+        <li>Les barres <strong>turquoise</strong> = valeurs attendues si les données étaient aléatoires</li>
+        <li>Nos barres rouges dépassent légèrement les barres turquoise pour les <strong>axes 1 à 4</strong></li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <p>Les axes 1-4 font mieux que le hasard, confirmant qu'il existe une <strong>vraie structure</strong> dans les données. Cependant, l'écart n'est pas spectaculaire : la structure est <strong>réelle mais modérée</strong>. C'est cohérent avec la grande diversité des 31 249 communes françaises - elles ne se réduisent pas à quelques profils simples.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 4 : Cercle des Corrélations (Dim1-Dim2)</h2>
+
+<div class="image-container">
+    <img src="images/04_cercle_correlations.png" alt="Cercle des corrélations">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE SUR L'AXE 1 (horizontal, 20.82%) :</strong>
+    <table>
+        <tr><th>À GAUCHE (-)</th><th>À DROITE (+)</th></tr>
+        <tr><td><code>taux_proprietaires</code> (-0.75)</td><td><code>taux_chomage</code> (+0.70)</td></tr>
+        <tr><td><code>MED21</code> (-0.48)</td><td><code>taux_mortalite</code> (+0.52)</td></tr>
+        <tr><td><code>pct_services</code> (-0.42)</td><td><code>taux_logements_vacants</code> (+0.45)</td></tr>
+    </table>
+    
+    <strong>🔍 CE QU'ON OBSERVE SUR L'AXE 2 (vertical, 19.98%) :</strong>
+    <table>
+        <tr><th>EN BAS (-)</th><th>EN HAUT (+)</th></tr>
+        <tr><td><code>pct_services</code> (-0.62)</td><td><code>pct_agriculture</code> (+0.60)</td></tr>
+        <tr><td><code>MED21</code> (-0.38)</td><td><code>taux_logements_vacants</code> (+0.45)</td></tr>
+        <tr><td><code>densite_pop</code> (-0.30)</td><td><code>taux_mortalite</code> (+0.35)</td></tr>
+    </table>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION - SIGNIFICATION DES AXES :</strong>
+    
+    <p><strong>AXE 1 = "Stabilité socio-économique"</strong></p>
+    <ul>
+        <li>À GAUCHE : communes <strong>stables et aisées</strong> (propriétaires, revenus élevés, services)</li>
+        <li>À DROITE : communes <strong>fragiles</strong> (chômage, mortalité, logements vides)</li>
+    </ul>
+    
+    <p><strong>AXE 2 = "Typologie territoriale"</strong></p>
+    <ul>
+        <li>EN BAS : communes <strong>urbaines/tertiaires</strong> (services, densité, revenus)</li>
+        <li>EN HAUT : communes <strong>rurales/agricoles</strong> (agriculture, logements vacants)</li>
+    </ul>
+    
+    <p><strong>Variables proches du centre</strong> (<code>taux_natalite</code>, <code>pct_industrie</code>) : mal représentées sur ce plan, il faudra regarder les axes 3-4.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUES 5-6 : Contributions et Qualité (cos²)</h2>
+
+<div class="image-container">
+    <img src="images/05_cercle_contribution.png" alt="Cercle avec contributions">
+    <p><em>Graphique 5 : Variables colorées par leur contribution</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE (Graphique 5 - Contributions) :</strong>
+    <ul>
+        <li>En <strong>rouge</strong> : <code>taux_proprietaires</code>, <code>taux_chomage</code>, <code>pct_services</code> → ces variables <strong>construisent</strong> les axes</li>
+        <li>En <strong>bleu</strong> : <code>taux_natalite</code>, <code>pct_industrie</code> → ces variables contribuent peu aux axes 1-2</li>
+    </ul>
+</div>
+
+<div class="image-container">
+    <img src="images/06_cercle_cos2.png" alt="Cercle avec cos²">
+    <p><em>Graphique 6 : Variables colorées par leur qualité de représentation</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE (Graphique 6 - cos²) :</strong>
+    <table>
+        <tr><th>Variable</th><th>cos² Plan 1-2</th><th>Qualité</th></tr>
+        <tr><td><code>pct_services</code></td><td>0.63</td><td>✅ Bien représentée</td></tr>
+        <tr><td><code>taux_proprietaires</code></td><td>0.58</td><td>✅ Bien représentée</td></tr>
+        <tr><td><code>taux_chomage</code></td><td>0.57</td><td>✅ Bien représentée</td></tr>
+        <tr><td><code>pct_agriculture</code></td><td>0.42</td><td>⚠️ Correcte</td></tr>
+        <tr><td><code>taux_natalite</code></td><td>0.03</td><td>❌ Mal représentée</td></tr>
+        <tr><td><code>pct_industrie</code></td><td>0.03</td><td>❌ Mal représentée</td></tr>
+    </table>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <ul>
+        <li><strong>Contributions</strong> = qui FABRIQUE l'axe ? → <code>taux_proprietaires</code> et <code>taux_chomage</code> fabriquent l'axe 1 ; <code>pct_services</code> et <code>pct_agriculture</code> fabriquent l'axe 2</li>
+        <li><strong>cos²</strong> = qui est VISIBLE sur le plan ? → Les variables en rouge sont bien projetées, on peut les interpréter. Les variables en bleu sont "cachées" sur d'autres axes.</li>
+        <li><strong>Attention :</strong> <code>taux_natalite</code> et <code>pct_industrie</code> ont un cos² de 0.03 → elles sont invisibles sur ce plan ! Pour les analyser, il faut regarder le plan 1-3.</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUES 7-8-9 : Contributions aux Axes</h2>
+
+<div class="image-container">
+    <img src="images/07_contrib_dim1.png" alt="Contributions Dim1">
+    <p><em>Graphique 7 : Contributions des variables à l'axe 1</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE (AXE 1) :</strong>
+    <table>
+        <tr><th>Rang</th><th>Variable</th><th>Contribution</th><th>Signe</th></tr>
+        <tr><td>1</td><td><code>taux_proprietaires</code></td><td><strong>24.55%</strong></td><td>Négatif (-)</td></tr>
+        <tr><td>2</td><td><code>taux_chomage</code></td><td><strong>21.60%</strong></td><td>Positif (+)</td></tr>
+        <tr><td>3</td><td><code>taux_mortalite</code></td><td>12.09%</td><td>Positif (+)</td></tr>
+        <tr><td>4</td><td><code>pct_services</code></td><td>10.91%</td><td>Négatif (-)</td></tr>
+        <tr><td>5</td><td><code>MED21</code></td><td>9.98%</td><td>Négatif (-)</td></tr>
+    </table>
+    <p>La <strong>ligne rouge</strong> = seuil de contribution uniforme (100/11 = 9.1%). Les variables au-dessus contribuent significativement.</p>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION DE L'AXE 1 :</strong>
+    <p>L'axe 1 est principalement construit par l'opposition entre :</p>
+    <ul>
+        <li><strong>Côté négatif</strong> : propriétaires (25%), services (11%), revenus (10%) → <strong>STABILITÉ</strong></li>
+        <li><strong>Côté positif</strong> : chômage (22%), mortalité (12%) → <strong>PRÉCARITÉ</strong></li>
+    </ul>
+    <p>→ <strong>Nom de l'axe 1 : "Stabilité socio-économique"</strong></p>
+</div>
+
+<div class="image-container">
+    <img src="images/08_contrib_dim2.png" alt="Contributions Dim2">
+    <p><em>Graphique 8 : Contributions des variables à l'axe 2</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE (AXE 2) :</strong>
+    <table>
+        <tr><th>Rang</th><th>Variable</th><th>Contribution</th><th>Signe</th></tr>
+        <tr><td>1</td><td><code>pct_services</code></td><td><strong>17.28%</strong></td><td>Négatif (-)</td></tr>
+        <tr><td>2</td><td><code>pct_agriculture</code></td><td><strong>16.57%</strong></td><td>Positif (+)</td></tr>
+        <tr><td>3</td><td><code>MED21</code></td><td>15.52%</td><td>Négatif (-)</td></tr>
+        <tr><td>4</td><td><code>taux_logements_vacants</code></td><td>10.26%</td><td>Positif (+)</td></tr>
+        <tr><td>5</td><td><code>densite_pop</code></td><td>9.85%</td><td>Négatif (-)</td></tr>
+    </table>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION DE L'AXE 2 :</strong>
+    <p>L'axe 2 est construit par l'opposition entre :</p>
+    <ul>
+        <li><strong>Côté négatif</strong> : services (17%), revenus (16%), densité (10%) → <strong>URBAIN/TERTIAIRE</strong></li>
+        <li><strong>Côté positif</strong> : agriculture (17%), logements vacants (10%) → <strong>RURAL/AGRICOLE</strong></li>
+    </ul>
+    <p>→ <strong>Nom de l'axe 2 : "Typologie territoriale (urbain vs rural)"</strong></p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUES 10-11 : Nuage des Individus (Communes)</h2>
+
+<div class="image-container">
+    <img src="images/10_individus_simple.png" alt="Nuage des individus">
+    <p><em>Graphique 10 : Les 31 249 communes projetées sur le plan 1-2</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li>Un <strong>nuage dense au centre</strong> : la majorité des communes ont un profil "moyen"</li>
+        <li>Des <strong>points extrêmes</strong> sur les bords : communes atypiques</li>
+        <li>Forme en <strong>losange</strong> : les deux axes structurent bien l'espace</li>
+    </ul>
+</div>
+
+<div class="image-container">
+    <img src="images/11_individus_cos2.png" alt="Individus colorés par cos²">
+    <p><em>Graphique 11 : Communes colorées par leur qualité de représentation</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li>En <strong>rouge</strong> : communes bien représentées (cos² élevé) → on peut interpréter leur position</li>
+        <li>En <strong>bleu</strong> : communes mal représentées → leur position est trompeuse, elles s'expriment sur d'autres axes</li>
+        <li>Les <strong>points extrêmes</strong> sont souvent en rouge : les profils marqués sont bien capturés par les axes 1-2</li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION - LES 4 QUADRANTS :</strong>
+    <table>
+        <tr><th>Position</th><th>Axe 1</th><th>Axe 2</th><th>Profil de commune</th></tr>
+        <tr><td><strong>Haut-Gauche</strong></td><td>Stable</td><td>Rural</td><td>Village agricole stable (ex: Bretagne)</td></tr>
+        <tr><td><strong>Haut-Droit</strong></td><td>Précaire</td><td>Rural</td><td>Commune rurale fragile (ex: Creuse)</td></tr>
+        <tr><td><strong>Bas-Gauche</strong></td><td>Stable</td><td>Urbain</td><td>Ville tertiaire aisée (ex: Neuilly)</td></tr>
+        <tr><td><strong>Bas-Droit</strong></td><td>Précaire</td><td>Urbain</td><td>Banlieue populaire (ex: Roubaix)</td></tr>
+    </table>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUES 12-13 : Contributions des Individus</h2>
+
+<div class="image-container">
+    <img src="images/12_individus_contrib.png" alt="Individus par contribution">
+    <p><em>Graphique 12 : Communes colorées par leur contribution</em></p>
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li>En <strong>rouge</strong> : communes qui "tirent" les axes (valeurs extrêmes)</li>
+        <li>En <strong>bleu</strong> : communes "banales" qui suivent les axes sans les définir</li>
+        <li>Les grandes métropoles et les communes très rurales sont en rouge : elles ont des profils extrêmes</li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <p>Les communes qui contribuent le plus aux axes sont celles aux profils les plus marqués :</p>
+    <ul>
+        <li><strong>Communes très urbaines</strong> : Paris et sa banlieue, Lyon, Marseille</li>
+        <li><strong>Communes très rurales</strong> : Creuse, Cantal, Lozère</li>
+        <li><strong>Communes très précaires</strong> : anciennes villes industrielles du Nord</li>
+    </ul>
+    <p>La majorité des communes (en bleu) ont un profil intermédiaire.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 14 : Biplot (Individus + Variables)</h2>
+
+<div class="image-container">
+    <img src="images/14_biplot.png" alt="Biplot">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li>Les <strong>points</strong> = les 31 249 communes</li>
+        <li>Les <strong>flèches</strong> = les 11 variables</li>
+        <li>Les communes <strong>dans la direction d'une flèche</strong> ont des valeurs élevées sur cette variable</li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <ul>
+        <li>Les communes <strong>en bas-gauche</strong> (direction de <code>pct_services</code> et <code>MED21</code>) sont des <strong>villes tertiaires riches</strong></li>
+        <li>Les communes <strong>en haut-droite</strong> (direction de <code>pct_agriculture</code> et <code>taux_logements_vacants</code>) sont des <strong>villages ruraux en déclin</strong></li>
+        <li>Les communes <strong>à droite</strong> (direction de <code>taux_chomage</code>) sont des <strong>zones précaires</strong></li>
+        <li>Les communes <strong>au centre</strong> ont un profil moyen sur toutes les variables</li>
+    </ul>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 15 : Heatmap des Corrélations Variables-Axes</h2>
+
+<div class="image-container">
+    <img src="images/15_heatmap_var_axes.png" alt="Heatmap variables-axes">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <table>
+        <tr><th>Variable</th><th>Dim 1</th><th>Dim 2</th><th>Dim 3</th><th>Dim 4</th></tr>
+        <tr><td><code>taux_proprietaires</code></td><td><strong>-0.75</strong></td><td>-0.11</td><td>+0.12</td><td>-0.08</td></tr>
+        <tr><td><code>taux_chomage</code></td><td><strong>+0.70</strong></td><td>+0.20</td><td>-0.18</td><td>+0.15</td></tr>
+        <tr><td><code>pct_services</code></td><td>-0.42</td><td><strong>-0.62</strong></td><td>+0.08</td><td>+0.25</td></tr>
+        <tr><td><code>pct_agriculture</code></td><td>+0.22</td><td><strong>+0.60</strong></td><td>-0.15</td><td>-0.32</td></tr>
+        <tr><td><code>taux_natalite</code></td><td>-0.15</td><td>-0.08</td><td><strong>+0.62</strong></td><td>+0.10</td></tr>
+        <tr><td><code>pct_industrie</code></td><td>+0.05</td><td>+0.12</td><td>-0.08</td><td><strong>+0.72</strong></td></tr>
+    </table>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION :</strong>
+    <ul>
+        <li><strong>Axe 1</strong> : dominé par <code>taux_proprietaires</code> (-0.75) et <code>taux_chomage</code> (+0.70) → axe social</li>
+        <li><strong>Axe 2</strong> : dominé par <code>pct_services</code> (-0.62) et <code>pct_agriculture</code> (+0.60) → axe territorial</li>
+        <li><strong>Axe 3</strong> : dominé par <code>taux_natalite</code> (+0.62) → axe démographique</li>
+        <li><strong>Axe 4</strong> : dominé par <code>pct_industrie</code> (+0.72) → axe industriel</li>
+    </ul>
+    <p>Cette heatmap confirme que chaque axe a une signification claire et différente.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📊 GRAPHIQUE 16 : Cercle des Corrélations (Dim1-Dim3)</h2>
+
+<div class="image-container">
+    <img src="images/16_cercle_dim1_dim3.png" alt="Cercle Dim1-Dim3">
+</div>
+
+<div class="resultat">
+    <strong>🔍 CE QU'ON OBSERVE :</strong>
+    <ul>
+        <li><code>taux_natalite</code> apparaît maintenant <strong>en haut</strong> avec une coordonnée de +0.62 sur l'axe 3</li>
+        <li><code>taux_mortalite</code> apparaît <strong>en bas</strong> avec une coordonnée de -0.45</li>
+        <li>Ces deux variables étaient "invisibles" sur le plan 1-2 (cos² = 0.03)</li>
+    </ul>
+</div>
+
+<div class="interpretation">
+    <strong>📝 INTERPRÉTATION DE L'AXE 3 (12.34%) :</strong>
+    <p><strong>Axe 3 = "Dynamisme démographique"</strong></p>
+    <ul>
+        <li><strong>En haut (+)</strong> : <code>taux_natalite</code> élevé → communes jeunes, dynamiques (Île-de-France, banlieues familiales)</li>
+        <li><strong>En bas (-)</strong> : <code>taux_mortalite</code> élevé → communes vieillissantes (Massif Central, Bretagne intérieure)</li>
+    </ul>
+    <p><strong>Pourquoi regarder ce plan ?</strong> La natalité n'était pas visible sur le plan 1-2 car elle est <strong>indépendante</strong> de l'opposition urbain/rural et de l'opposition stable/précaire. Une commune peut être rurale ET jeune, ou urbaine ET vieillissante.</p>
+</div>
+
+<div class="page-break"></div>
+
+<!-- ================================================================== -->
+<h2>📋 SYNTHÈSE DES RÉSULTATS</h2>
+
+<div class="conclusion">
+    <strong>🎯 LES 4 AXES PRINCIPAUX :</strong>
+    <table>
+        <tr><th>Axe</th><th>% Inertie</th><th>Nom</th><th>Oppose</th></tr>
+        <tr><td>1</td><td>20.82%</td><td>Stabilité socio-économique</td><td>Stable/riche ↔ Précaire/fragile</td></tr>
+        <tr><td>2</td><td>19.98%</td><td>Typologie territoriale</td><td>Urbain/tertiaire ↔ Rural/agricole</td></tr>
+        <tr><td>3</td><td>12.34%</td><td>Dynamisme démographique</td><td>Jeune/dynamique ↔ Vieillissant</td></tr>
+        <tr><td>4</td><td>10.16%</td><td>Spécialisation économique</td><td>Tertiaire ↔ Industriel</td></tr>
+    </table>
+</div>
+
+<div class="conclusion">
+    <strong>🎯 LES 4 PROFILS DE COMMUNES :</strong>
+    <table>
+        <tr><th>Profil</th><th>Caractéristiques principales</th><th>Exemples typiques</th></tr>
+        <tr><td><strong>Urbain aisé</strong></td><td>Services, revenus élevés, propriétaires, peu de chômage</td><td>Neuilly, Lyon 6e, Bordeaux centre</td></tr>
+        <tr><td><strong>Urbain populaire</strong></td><td>Services, mais chômage élevé, locataires</td><td>Roubaix, Vaulx-en-Velin, Seine-St-Denis</td></tr>
+        <tr><td><strong>Rural stable</strong></td><td>Agriculture, propriétaires, peu de chômage</td><td>Villages de Bretagne, Alsace</td></tr>
+        <tr><td><strong>Rural fragile</strong></td><td>Agriculture, logements vacants, vieillissement, chômage</td><td>Creuse, Cantal, Lozère</td></tr>
+    </table>
+</div>
+
+<div class="conclusion">
+    <strong>🎯 VARIABLES LES PLUS DISCRIMINANTES :</strong>
+    <ol>
+        <li><code>pct_services</code> (17% sur axe 2) - différencie ville/campagne</li>
+        <li><code>taux_proprietaires</code> (25% sur axe 1) - différencie stable/précaire</li>
+        <li><code>taux_chomage</code> (22% sur axe 1) - marqueur de fragilité</li>
+        <li><code>pct_agriculture</code> (17% sur axe 2) - marqueur de ruralité</li>
+        <li><code>MED21</code> (16% sur axe 2) - niveau de vie</li>
+    </ol>
+</div>
+
+<div class="conclusion">
+    <strong>⚠️ LIMITES À MENTIONNER :</strong>
+    <ul>
+        <li><strong>40.80%</strong> d'inertie sur le plan 1-2 : il faut aussi analyser les axes 3-4</li>
+        <li><code>taux_natalite</code> et <code>pct_industrie</code> invisibles sur le plan principal</li>
+        <li>~10% des communes exclues (données manquantes)</li>
+        <li>Pas de pondération par population : Paris compte autant que le plus petit village</li>
+    </ul>
+</div>
+
+<hr>
+<p style="text-align: center; color: gray;"><em>Master 1 Statistique - Université de Strasbourg - Cours E. Périnel (2024-2025)</em></p>
+
+</body>
+</html>
